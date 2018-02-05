@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+int sieve[ 10000000 + 100 ] ;
+int mobius [ 10000000 + 100 ] ;
+void calc ()
+{
+    for( int i = 1 ; i <= 10000000 ; i ++ ) mobius [ i ] = 1 ;
+    mobius[1]=1;
+    for( int i = 2 ; i <= 10000000 ; i ++)
+    {
+        if ( sieve[ i ] == 0 )
+        {
+            mobius[ i ] = - 1 ;
+            for( int j = i + i  ; j <= 10000000 ; j += i )
+            {
+                sieve[ j ] = 1 ;
+                if ( j % (i * i) == 0 )
+                {
+                    mobius [ j ] = 0 ;
+                }
+                mobius[ j ] = - 1 * mobius [ j ] ;
+
+            }
+
+        }
+    }
+
+
+}
+vector < long long > arr ;
+int main()
+{
+
+    calc();
+    int t ;
+    scanf("%d",&t);
+    //for(int i = 1 ; i <= 20 ; i ++ ) cout << mobius[ i ] << " ";
+    long long int ans = 0 ;
+    while ( t-- )
+    {
+        long long n , sq ;
+        scanf("%lld",&n);
+        sq = sqrt(n);
+        ans = n ;
+        for( long long i = 2 ; i * i <= n ; i ++  )
+        {
+            ans += mobius [ i ] * (n/(i*i));
+        }
+        printf("%lld\n",ans);
+    }
+
+    return 0;
+}
+
